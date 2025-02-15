@@ -9,12 +9,16 @@ var thrust: Vector2 = Vector2.ZERO
 var rotation_dir: float = 0
 var state = INIT
 
+var screensize = Vector2.ZERO
+
 @onready var sprite = $Sprite
 @onready var collision_shape = $CollisionShape2D
 
 
 func _ready():
 	change_state(ALIVE)
+
+	screensize = get_viewport_rect().size
 
 
 func change_state(new_state):
@@ -48,3 +52,10 @@ func get_input():
 func _physics_process(delta: float):
 	constant_force = thrust
 	constant_torque = rotation_dir * spin_power
+
+
+func _integrate_forces(physics_state):
+	var xform = physics_state.transform
+	xform.origin.x = wrapf(xform.origin.x, 0, screensize.x)
+	xform.origin.y = wrapf(xform.origin.y, 0, screensize.y)
+	physics_state.transform = xform
