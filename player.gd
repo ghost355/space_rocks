@@ -56,10 +56,6 @@ func get_input():
 		return
 
 	if Input.is_action_pressed("thrust"):
-		print(transform.origin)
-		print(transform.x)
-		print(transform.y)
-		print("===================")
 		thrust = transform.x * engine_power  # расчет силы двигателя по направлению х
 
 	# вращение равно отрицательному или оложительному значению если left или right
