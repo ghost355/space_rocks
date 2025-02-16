@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://d1blyg36co61r"]
+
+[ext_resource type="Script" uid="uid://1t186kg64ec0" path="res://rock.gd" id="1_68h2w"]
+[ext_resource type="Texture2D" uid="uid://du2tg3ivq4nrv" path="res://assets/rock.png" id="2_wecdg"]
+[ext_resource type="PackedScene" uid="uid://l7y72lci1qnp" path="res://explosion.tscn" id="3_wecdg"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_46y1q"]
+bounce = 1.0
+
+[node name="Rock" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_46y1q")
+linear_damp_mode = 1
+angular_damp_mode = 1
+script = ExtResource("1_68h2w")
+
+[node name="Explosion" parent="." instance=ExtResource("3_wecdg")]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="." groups=["rocks"]]
+texture = ExtResource("2_wecdg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
