@@ -4,13 +4,22 @@ extends Node
 
 var screensize: Vector2 = Vector2.ZERO
 
+var level = 0
+var score = 0
+var playing = false
+
 @onready var rock_spawn = $RockPath/RockSpawn
 
 
 func _ready() -> void:
 	screensize = get_viewport().get_visible_rect().size
-	for i in 3:
-		spawn_rock(3)
+
+
+func _process(delta: float):
+	if not playing:
+		return
+	if get_tree().get_nodes_in_group("rocks").size() == 0:
+		new_level()
 
 
 func spawn_rock(size: int, pos = null, vel = null) -> void:
@@ -35,3 +44,26 @@ func _on_rock_exploded(size, radius, pos, vel):
 		var newpos = pos + dir * radius
 		var newvel = dir * vel.length() * 1.1
 		spawn_rock(size - 1, newpos, newvel)
+
+
+func new_game():
+	# remove any old rocks from prev games
+	get_tree().call_group("rocks", "queue_free")
+	level = 0
+	score = 0
+	$HUD.update_score(score)
+	$HUD.show_message("Get Ready!")
+	$Player.reset()
+	await $HUD.Timer.timeout
+	playing = true
+
+
+func new_level():
+	level += 1
+	$HUD.show_message("Wave %s" % level)
+	for i in level:
+		spawn_rock(3)
+		
+func game_over():
+	playing = false
+	$HUD.game_over()
