@@ -54,7 +54,7 @@ func new_game():
 	$HUD.update_score(score)
 	$HUD.show_message("Get Ready!")
 	$Player.reset()
-	await $HUD.Timer.timeout
+	await $HUD/Timer.timeout
 	playing = true
 
 
@@ -63,7 +63,8 @@ func new_level():
 	$HUD.show_message("Wave %s" % level)
 	for i in level:
 		spawn_rock(3)
-		
+
+
 func game_over():
 	playing = false
 	$HUD.game_over()
